@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather's App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Weather's App</h1>
+        </div>
+        <div class="form">
+            <p class="sub-title">Check your current weather.</p>
+            <form action="/search" method="POST" class="input-form">
+                <input type="text" name="city" id="city" placeholder="City name">
+                <input type="submit" value="Search" class="btn-search">
+            </form>
+        </div>
+        <% if(locals.data) { %> 
+            <div class="weather">
+                <p>Current weather: <span style="color: #22668D;"> <%= data.name %></span></p>
+                <div class="icon">
+                    <div class="temp-icon">
+                        <% function getImg() {
+                            return `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+                        } %>
+                        <% let imgURL = getImg() %>
+                        <img src=<%= imgURL %> alt="weather" >
+                        <p style="font-size: 48px; color: #22668D; align-self: center;"><%= Math.floor(data.main.temp) %>&deg;C</p>
+                    </div>
+                    <div class="weather-main" style="font-weight: 700;">
+                        <p><%= data.weather[0].main %></p>
+                        <p>Feels like <span style="color: #22668D;"><%= Math.floor(data.main.feels_like) %>&deg;C</span></p>
+                    </div>
+                </div>     
+                <div class="weather-desc">
+                    <div class="wind">
+                        <img src="img/wind.png" alt="windspeed" width="50">
+                        <p class="desc-title">Wind</p>
+                        <p class="desc-data"><%= data.wind.speed %> m/s</p>
+                    </div>
+                    <div class="humidity">
+                        <img src="img/humidity.png" alt="windspeed" width="50">
+                        <p class="desc-title">Humidity</p>
+                        <p class="desc-data"><%= data.main.humidity %>%</p>
+                    </div>
+                    <div class="visibility">
+                        <img src="img/visibility.png" alt="windspeed" width="50">
+                        <p class="desc-title">Visibility</p>
+                        <p class="desc-data"><%= data.visibility/1000   %> km</p>
+                    </div>
+                    <div class="pressure">
+                        <img src="img/pressure.png" alt="windspeed" width="50">
+                        <p class="desc-title">Pressure</p>
+                        <p class="desc-data"><%= data.main.pressure %> hPa</p>
+                    </div>
+                </div>
+            </div>
+            
+        <% } else { %>
+            <% if(locals.err) { %>
+            <p class="error-msg"><%= err.message %></p>
+            <% } %>
+        <% } %>
+
+        
+
+    </div>
+</body>
+</html>
