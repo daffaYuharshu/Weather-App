@@ -8,6 +8,9 @@ require('dotenv').config()
 
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
+app.set('view engine', 'ejs')
+app.engine('ejs', require('ejs').__express);
+app.set('views', __dirname + '/views')
 
 app.post("/search", async (req, res) => {
     const city = req.body.city;
